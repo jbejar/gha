@@ -4,9 +4,7 @@ name: Lint workflow
 # Trigger workflow on all pull requests
 on:
   pull_request:
-    branches:
-      - develop
-      - staging
+    types: [opened, synchronize, reopened]
 
 # Jobs to carry out
 jobs:
