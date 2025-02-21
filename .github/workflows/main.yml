@@ -4,9 +4,7 @@ name: Lint workflow
 # Trigger workflow on all pull requests
 on:
   pull_request:
-    branches:
-      - develop
-      - staging
+    types: [opened, synchronize, reopened]
 
 # Jobs to carry out
 jobs:
@@ -18,16 +16,19 @@ jobs:
     steps:
       # Get code from repo
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 21.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 19.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 21.x
+          node-version: 19.x
+          registry-url: 'https://registry.npmjs.org'
 
       # Install dependencies
       - name: 🧰 Install Deps
-        run: npm install
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         
       # Run lint
       - name: Run Lint
